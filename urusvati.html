@@ -14,6 +14,9 @@
   .cta-primary:hover { transform: scale(1.04); }
   .service-card, .extra-service-card { display: none; }
   .service-card.visible, .extra-service-card.visible { display: flex; }
+  .booking-field::placeholder { color: oklch(60% 0.02 280); }
+  .booking-field:focus { outline: none; border-color: oklch(78% 0.13 85); }
+  .booking-submit:hover { transform: scale(1.02); }
 </style>
 </head>
 <body>
@@ -30,7 +33,7 @@
     <a href="#courses" style="color: oklch(22% 0.02 265);">Курсы</a>
     <a href="#contacts" style="color: oklch(22% 0.02 265);">Контакты</a>
   </nav>
-  <a href="https://wa.me/79173999334" style="padding: 10px 20px; border-radius: 999px; background: oklch(48% 0.15 300); color: #fff; font-weight: 700; font-size: 14px;">Записаться</a>
+  <button type="button" onclick="openBookingModal()" style="padding: 10px 20px; border-radius: 999px; border: none; background: oklch(48% 0.15 300); color: #fff; font-weight: 700; font-size: 14px; font-family: inherit; cursor: pointer;">Записаться</button>
 </header>
 
 <!-- HERO -->
@@ -43,7 +46,7 @@
       <h1 style="font-size: 30px; line-height: 1.3; font-weight: 800; margin: 0 0 14px; letter-spacing: -0.01em; max-width: 460px;">Узнайте настоящую причину проблем в отношениях, деньгах и здоровье — по дате рождения</h1>
       <p style="font-size: 16px; line-height: 1.55; max-width: 480px; margin: 0 0 24px; color: oklch(88% 0.02 280);">Татьяна Киндра — основатель школы, <br>психолог, нумеролог и астролог</p>
       <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 14px;">
-        <a href="https://wa.me/79173999334" class="cta-primary" style="padding: 15px 30px; border-radius: 999px; background: oklch(78% 0.13 85); color: oklch(18% 0.03 90); font-weight: 800; font-size: 15px; transition: transform 0.15s; box-shadow: 0 8px 24px oklch(78% 0.13 85 / 0.35); display: inline-block;">Записаться на консультацию</a>
+        <button type="button" onclick="openBookingModal()" class="cta-primary" style="padding: 15px 30px; border-radius: 999px; border: none; background: oklch(78% 0.13 85); color: oklch(18% 0.03 90); font-weight: 800; font-size: 15px; font-family: inherit; transition: transform 0.15s; box-shadow: 0 8px 24px oklch(78% 0.13 85 / 0.35); cursor: pointer;">Записаться на консультацию</button>
       </div>
       <div style="display: flex; gap: 32px; flex-wrap: wrap; padding-top: 14px; border-top: 1px solid oklch(70% 0.02 280 / 0.2);">
         <div><div style="font-size: 22px; font-weight: 800; color: oklch(80% 0.09 85);">2500+</div><div style="font-size: 12px; color: oklch(82% 0.02 280);">консультаций</div></div>
@@ -161,7 +164,7 @@
 
     <div style="text-align: center; margin-top: 32px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
       <button id="toggle-services-btn" onclick="toggleServices()" style="padding: 14px 30px; border-radius: 999px; border: 1px solid oklch(48% 0.15 300); background: transparent; color: oklch(48% 0.15 300); font-weight: 700; font-size: 15px; cursor: pointer;">Ещё услуги</button>
-      <a href="https://wa.me/79173999334" style="display: inline-block; padding: 16px 36px; border-radius: 999px; background: oklch(48% 0.15 300); color: #fff; font-weight: 700; font-size: 16px;">Записаться на консультацию</a>
+      <button type="button" onclick="openBookingModal()" style="display: inline-block; padding: 16px 36px; border-radius: 999px; border: none; background: oklch(48% 0.15 300); color: #fff; font-weight: 700; font-size: 16px; font-family: inherit; cursor: pointer;">Записаться на консультацию</button>
     </div>
   </div>
 </section>
@@ -247,13 +250,103 @@
   <div style="position: relative; max-width: 1120px; margin: 24px auto 0; padding-top: 12px; border-top: 1px solid oklch(40% 0.03 290); font-size: 11px; color: oklch(65% 0.02 280);">© 2026 Татьяна Киндра. Все права защищены.</div>
 </footer>
 
+<!-- МОДАЛЬНОЕ ОКНО ЗАПИСИ НА КОНСУЛЬТАЦИЮ -->
+<div id="booking-modal" style="display: none; position: fixed; inset: 0; z-index: 100; align-items: center; justify-content: center; padding: 20px;">
+  <div onclick="closeBookingModal()" style="position: absolute; inset: 0; background: oklch(12% 0.03 290 / 0.72);"></div>
+  <div style="position: relative; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; background: oklch(24% 0.07 300); color: #fff; border-radius: 24px; padding: 40px 32px;">
+    <button type="button" onclick="closeBookingModal()" aria-label="Закрыть" style="position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; border-radius: 50%; background: oklch(100% 0 0 / 0.1); color: #fff; font-size: 18px; line-height: 1; cursor: pointer;">✕</button>
+
+    <div style="text-align: center; margin-bottom: 32px;">
+      <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(80% 0.09 85); margin-bottom: 14px;">Запись на консультацию</div>
+      <h2 style="font-size: 28px; font-weight: 800; margin: 0; letter-spacing: -0.01em;">Оставьте заявку</h2>
+    </div>
+
+    <form id="booking-form" onsubmit="return submitBookingForm(event)">
+      <div style="margin-bottom: 20px;">
+        <label for="booking-name" style="display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(75% 0.02 280); margin-bottom: 8px;">Ваше имя</label>
+        <input id="booking-name" name="name" type="text" required placeholder="Как вас зовут?" class="booking-field" style="width: 100%; box-sizing: border-box; padding: 16px 18px; border-radius: 14px; border: 1px solid oklch(45% 0.04 290); background: oklch(30% 0.05 295); color: #fff; font-size: 15px; font-family: inherit;">
+      </div>
+      <div style="margin-bottom: 20px;">
+        <label for="booking-phone" style="display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(75% 0.02 280); margin-bottom: 8px;">Номер телефона</label>
+        <input id="booking-phone" name="phone" type="tel" required placeholder="+7 912 345 67 89" class="booking-field" style="width: 100%; box-sizing: border-box; padding: 16px 18px; border-radius: 14px; border: 1px solid oklch(45% 0.04 290); background: oklch(30% 0.05 295); color: #fff; font-size: 15px; font-family: inherit;">
+      </div>
+      <div style="margin-bottom: 26px;">
+        <label for="booking-request" style="display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(75% 0.02 280); margin-bottom: 8px;">Опишите кратко свой вопрос</label>
+        <textarea id="booking-request" name="request" required rows="4" placeholder="Что вас беспокоит: отношения, деньги, здоровье, предназначение..." class="booking-field" style="width: 100%; box-sizing: border-box; padding: 16px 18px; border-radius: 14px; border: 1px solid oklch(45% 0.04 290); background: oklch(30% 0.05 295); color: #fff; font-size: 15px; font-family: inherit; resize: vertical;"></textarea>
+      </div>
+      <button type="submit" id="booking-submit-btn" class="booking-submit" style="width: 100%; padding: 17px; border-radius: 999px; border: none; background: oklch(78% 0.13 85); color: oklch(18% 0.03 90); font-weight: 800; font-size: 16px; font-family: inherit; cursor: pointer; transition: transform 0.15s;">Отправить заявку</button>
+      <div id="booking-error" style="display: none; margin-top: 14px; text-align: center; font-size: 13px; color: oklch(75% 0.15 30);">Не получилось отправить заявку. Попробуйте ещё раз или напишите в WhatsApp.</div>
+    </form>
+    <div id="booking-success" style="display: none; text-align: center; font-size: 17px; font-weight: 700; padding: 20px 0;">Спасибо, мы скоро с вами свяжемся!</div>
+  </div>
+</div>
+
 <script>
+var SUPABASE_URL = 'https://uicuuzdrfhaodiebeyqa.supabase.co';
+var SUPABASE_ANON_KEY = 'sb_publishable_Mz1BrnEVCXydO9xda5mQFw_1qfrhwuL';
+
+function openBookingModal() {
+  document.getElementById('booking-modal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBookingModal() {
+  document.getElementById('booking-modal').style.display = 'none';
+  document.body.style.overflow = '';
+  document.getElementById('booking-form').reset();
+  document.getElementById('booking-form').style.display = 'block';
+  document.getElementById('booking-success').style.display = 'none';
+  document.getElementById('booking-error').style.display = 'none';
+}
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') closeBookingModal();
+});
+
 function toggleServices() {
   var extra = document.getElementById('extra-services');
   var btn = document.getElementById('toggle-services-btn');
   var isOpen = extra.style.display === 'grid';
   extra.style.display = isOpen ? 'none' : 'grid';
   btn.textContent = isOpen ? 'Ещё услуги' : 'Скрыть услуги';
+}
+
+async function submitBookingForm(event) {
+  event.preventDefault();
+  var name = document.getElementById('booking-name').value.trim();
+  var phone = document.getElementById('booking-phone').value.trim();
+  var request = document.getElementById('booking-request').value.trim();
+  if (!name || !phone || !request) return false;
+
+  var submitBtn = document.getElementById('booking-submit-btn');
+  var errorBox = document.getElementById('booking-error');
+  errorBox.style.display = 'none';
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Отправляем...';
+
+  try {
+    var response = await fetch(SUPABASE_URL + '/rest/v1/consultation_requests', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ name: name, phone: phone, request: request })
+    });
+    if (!response.ok) throw new Error('Request failed with status ' + response.status);
+
+    document.getElementById('booking-form').style.display = 'none';
+    document.getElementById('booking-success').style.display = 'block';
+  } catch (err) {
+    errorBox.style.display = 'block';
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Отправить заявку';
+  }
+
+  return false;
 }
 </script>
 </body>
