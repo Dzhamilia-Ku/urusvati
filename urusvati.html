@@ -383,7 +383,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div style="font-size: 12px; line-height: 1.6; color: oklch(80% 0.02 280);">ИП Кокуркина Т.В.<br>ОГРНИП 317169000174597<br>ИНН 165810216047<br>г. Казань</div>
     </div>
   </div>
-  <div style="position: relative; max-width: 1120px; margin: 24px auto 0; padding-top: 12px; border-top: 1px solid oklch(40% 0.03 290); font-size: 11px; color: oklch(65% 0.02 280);">© 2026 Татьяна Киндра. Все права защищены.</div>
+  <div style="position: relative; max-width: 1120px; margin: 24px auto 0; padding-top: 12px; border-top: 1px solid oklch(40% 0.03 290); font-size: 11px; color: oklch(65% 0.02 280); display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center;">
+    <span>© 2026 Татьяна Киндра. Все права защищены.</span>
+    <a href="assets/consent-pdn.pdf" target="_blank" rel="noopener" style="color: oklch(65% 0.02 280); text-decoration: underline;">Согласие на обработку персональных данных</a>
+  </div>
 </footer>
 
 <!-- МОДАЛЬНОЕ ОКНО ЗАПИСИ НА КОНСУЛЬТАЦИЮ -->
@@ -406,10 +409,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <label for="booking-phone" style="display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(75% 0.02 280); margin-bottom: 8px;">Номер телефона</label>
         <input id="booking-phone" name="phone" type="tel" required placeholder="+7 912 345 67 89" class="booking-field" style="width: 100%; box-sizing: border-box; padding: 16px 18px; border-radius: 14px; border: 1px solid oklch(45% 0.04 290); background: oklch(30% 0.05 295); color: #fff; font-size: 15px; font-family: inherit;">
       </div>
+      <div style="margin-bottom: 20px;">
+        <label for="booking-birthdate" style="display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(75% 0.02 280); margin-bottom: 8px;">Дата рождения</label>
+        <input id="booking-birthdate" name="birthdate" type="date" required class="booking-field" style="width: 100%; box-sizing: border-box; padding: 16px 18px; border-radius: 14px; border: 1px solid oklch(45% 0.04 290); background: oklch(30% 0.05 295); color: #fff; font-size: 15px; font-family: inherit;">
+      </div>
       <div style="margin-bottom: 26px;">
         <label for="booking-request" style="display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(75% 0.02 280); margin-bottom: 8px;">Опишите кратко свой вопрос</label>
         <textarea id="booking-request" name="request" required rows="4" placeholder="Что вас беспокоит: отношения, деньги, здоровье, предназначение..." class="booking-field" style="width: 100%; box-sizing: border-box; padding: 16px 18px; border-radius: 14px; border: 1px solid oklch(45% 0.04 290); background: oklch(30% 0.05 295); color: #fff; font-size: 15px; font-family: inherit; resize: vertical;"></textarea>
       </div>
+      <label style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 22px; font-size: 13px; line-height: 1.45; color: oklch(85% 0.02 280); cursor: pointer;">
+        <input id="booking-consent" type="checkbox" required style="margin-top: 3px; width: 16px; height: 16px; flex-shrink: 0; accent-color: oklch(78% 0.13 85); cursor: pointer;">
+        <span>Согласен(на) на обработку персональных данных для ответа на мой запрос (<a href="assets/consent-pdn.pdf" target="_blank" rel="noopener" style="color: oklch(80% 0.09 85); text-decoration: underline;">подробнее</a>)</span>
+      </label>
       <button type="submit" id="booking-submit-btn" class="booking-submit" style="width: 100%; padding: 17px; border-radius: 999px; border: none; background: oklch(78% 0.13 85); color: oklch(18% 0.03 90); font-weight: 800; font-size: 16px; font-family: inherit; cursor: pointer; transition: transform 0.15s;">Отправить заявку</button>
       <div id="booking-error" style="display: none; margin-top: 14px; text-align: center; font-size: 13px; color: oklch(75% 0.15 30);">Не получилось отправить заявку. Попробуйте ещё раз или напишите в WhatsApp.</div>
     </form>
@@ -451,8 +462,10 @@ async function submitBookingForm(event) {
   event.preventDefault();
   var name = document.getElementById('booking-name').value.trim();
   var phone = document.getElementById('booking-phone').value.trim();
+  var birthdate = document.getElementById('booking-birthdate').value;
   var request = document.getElementById('booking-request').value.trim();
-  if (!name || !phone || !request) return false;
+  var consent = document.getElementById('booking-consent').checked;
+  if (!name || !phone || !birthdate || !request || !consent) return false;
 
   var submitBtn = document.getElementById('booking-submit-btn');
   var errorBox = document.getElementById('booking-error');
@@ -469,7 +482,7 @@ async function submitBookingForm(event) {
         'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
         'Prefer': 'return=minimal'
       },
-      body: JSON.stringify({ name: name, phone: phone, request: request })
+      body: JSON.stringify({ name: name, phone: phone, birth_date: birthdate, request: request, consent_given: consent })
     });
     if (!response.ok) throw new Error('Request failed with status ' + response.status);
 
